@@ -15,5 +15,6 @@
  */
 /**
  * Type handlers.
+ * 类型处理器，包括所有数据库类型对应java类型的处理器，可自定义
  */
 package org.apache.ibatis.type;

@@ -15,5 +15,9 @@
  */
 /**
  * Base package for caching stuff
+ * 缓存功能实现，包括各种缓存装饰器
+ * TransactionalCache 二级缓存功能实现
+ * 
+ * 装饰器模式
  */
 package org.apache.ibatis.cache;

@@ -15,5 +15,6 @@
  */
 /**
  * Base package for handing plugins.
+ * 拦截功能实现，使用代理模式实现拦截
  */
 package org.apache.ibatis.plugin;

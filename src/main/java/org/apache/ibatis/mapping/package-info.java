@@ -15,5 +15,6 @@
  */
 /**
  * TODO fillme.
+ * 配置文件与实体对象的映射功能，Mapper映射、参数映射、结果集映射
  */
 package org.apache.ibatis.mapping;

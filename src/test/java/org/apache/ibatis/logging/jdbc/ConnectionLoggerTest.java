@@ -32,39 +32,39 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class ConnectionLoggerTest {
 
-  @Mock
-  Connection connection;
+	@Mock
+	Connection connection;
 
-  @Mock
-  PreparedStatement preparedStatement;
+	@Mock
+	PreparedStatement preparedStatement;
 
-  @Mock
-  Log log;
+	@Mock
+	Log log;
 
-  Connection conn;
+	Connection conn;
 
-  @Before
-  public void setUp() throws SQLException {
-    when(log.isDebugEnabled()).thenReturn(true);
-    conn = ConnectionLogger.newInstance(connection, log, 1);
-  }
+	@Before
+	public void setUp() throws SQLException {
+		when(log.isDebugEnabled()).thenReturn(true);
+		conn = ConnectionLogger.newInstance(connection, log, 1);
+	}
 
-  @Test
-  public void shouldPrintPrepareStatement() throws SQLException {
-    conn.prepareStatement("select 1");
-    verify(log).debug(contains("Preparing: select 1"));
-  }
+	@Test
+	public void shouldPrintPrepareStatement() throws SQLException {
+		conn.prepareStatement("select 1");
+		verify(log).debug(contains("Preparing: select 1"));
+	}
 
-  @Test
-  public void shouldPrintPrepareCall() throws SQLException {
-    conn.prepareCall("{ call test() }");
-    verify(log).debug(contains("Preparing: { call test() }"));
-  }
+	@Test
+	public void shouldPrintPrepareCall() throws SQLException {
+		conn.prepareCall("{ call test() }");
+		verify(log).debug(contains("Preparing: { call test() }"));
+	}
 
-  @Test
-  public void shouldNotPrintCreateStatement() throws SQLException {
-    conn.createStatement();
-    conn.close();
-    verify(log, times(0)).debug(anyString());
-  }
+	@Test
+	public void shouldNotPrintCreateStatement() throws SQLException {
+		conn.createStatement();
+		conn.close();
+		verify(log, times(0)).debug(anyString());
+	}
 }

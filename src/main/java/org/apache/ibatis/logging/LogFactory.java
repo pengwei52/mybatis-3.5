@@ -31,7 +31,7 @@ public final class LogFactory {
     public static final String MARKER = "MYBATIS";
 
     /**
-     * 使用的 Log 的构造方法
+     * 使用的 Log 实现的构造方法
      */
     private static Constructor<? extends Log> logConstructor;
 

@@ -32,7 +32,6 @@ import java.util.Properties;
  *
  * @author Clinton Begin
  */
-@SuppressWarnings("Duplicates")
 public class SqlSessionFactoryBuilder {
 
     public SqlSessionFactory build(Reader reader) {
@@ -55,7 +54,6 @@ public class SqlSessionFactoryBuilder {
      * @param properties Properties 变量
      * @return SqlSessionFactory 对象
      */
-    @SuppressWarnings("Duplicates")
     public SqlSessionFactory build(Reader reader, String environment, Properties properties) {
         try {
             // 创建 XMLConfigBuilder 对象

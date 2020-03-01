@@ -53,27 +53,29 @@ public class PooledDataSource implements DataSource {
 
     // OPTIONAL CONFIGURATION FIELDS
     /**
-     * 在任意时间可以存在的活动（也就是正在使用）连接数量
+     * 允许的最大活跃（也就是正在使用）连接数量
      */
     protected int poolMaximumActiveConnections = 10;
     /**
-     * 任意时间可能存在的空闲连接数
+     * 允许的最大空闲连接数
      */
     protected int poolMaximumIdleConnections = 5;
     /**
-     * 在被强制返回之前，池中连接被检出（checked out）时间。单位：毫秒
+     * 在被强制返回之前，池中连接被检出（checked out）时间（最长使用时间）。单位：毫秒
      */
     protected int poolMaximumCheckoutTime = 20000;
     /**
      * 这是一个底层设置，如果获取连接花费了相当长的时间，连接池会打印状态日志并重新尝试获取一个连接（避免在误配置的情况下一直安静的失败）。单位：毫秒
+     * 无法获得连接的最大等待时间
      */
     protected int poolTimeToWait = 20000;
     /**
      * 这是一个关于坏连接容忍度的底层设置，作用于每一个尝试从缓存池获取连接的线程. 如果这个线程获取到的是一个坏的连接，那么这个数据源允许这个线程尝试重新获取一个新的连接，但是这个重新尝试的次数不应该超过 poolMaximumIdleConnections 与 poolMaximumLocalBadConnectionTolerance 之和。
+     * 最大允许几次无效连接
      */
     protected int poolMaximumLocalBadConnectionTolerance = 3;
     /**
-     * 发送到数据库的侦测查询，用来检验连接是否正常工作并准备接受请求。
+     * 发送到数据库的侦测查询语句，用来检验连接是否正常工作并准备接受请求。
      */
     protected String poolPingQuery = "NO PING QUERY SET";
     /**
@@ -82,11 +84,13 @@ public class PooledDataSource implements DataSource {
     protected boolean poolPingEnabled;
     /**
      * 配置 poolPingQuery 的频率。可以被设置为和数据库连接超时时间一样，来避免不必要的侦测，默认值：0（即所有连接每一时刻都被侦测 — 当然仅当 poolPingEnabled 为 true 时适用）
+     * 当连接在这段时间内没有被使用，才允许测试连接是否有效
      */
     protected int poolPingConnectionsNotUsedFor;
 
     /**
      * 期望 Connection 的类型编码，通过 {@link #assembleConnectionTypeCode(String, String, String)} 计算。
+     * 根据数据库url、用户名、密码生成一个hash值，唯一标识一个连接池，由这个连接池生成的连接都会带上这个值
      */
     private int expectedConnectionTypeCode;
 
@@ -389,6 +393,7 @@ public class PooledDataSource implements DataSource {
         return ("" + url + username + password).hashCode();
     }
 
+    // 归还连接
     protected void pushConnection(PooledConnection conn) throws SQLException {
         synchronized (state) {
             // 从激活的连接集合中移除该连接
@@ -479,14 +484,15 @@ public class PooledDataSource implements DataSource {
                         if (longestCheckoutTime > poolMaximumCheckoutTime) { // 检查到超时
                             // Can claim overdue connection
                             // 对连接超时的时间的统计
-                            state.claimedOverdueConnectionCount++;
-                            state.accumulatedCheckoutTimeOfOverdueConnections += longestCheckoutTime;
-                            state.accumulatedCheckoutTime += longestCheckoutTime;
+                            state.claimedOverdueConnectionCount++;	// 超时连接次数+1
+                            state.accumulatedCheckoutTimeOfOverdueConnections += longestCheckoutTime;	// 累计超时时间增加
+                            state.accumulatedCheckoutTime += longestCheckoutTime;	// 累计的使用连接的时间增加
                             // 从活跃的连接集合中移除
                             state.activeConnections.remove(oldestActiveConnection);
                             // 如果非自动提交的，需要进行回滚。即将原有执行中的事务，全部回滚。
                             if (!oldestActiveConnection.getRealConnection().getAutoCommit()) {
                                 try {
+                                	// 超时时间未提交，手动回滚
                                     oldestActiveConnection.getRealConnection().rollback();
                                 } catch (SQLException e) {
                                     /*
@@ -501,10 +507,11 @@ public class PooledDataSource implements DataSource {
                                 }
                             }
                             // 创建新的 PooledConnection 连接对象
+                            // 注意：对于数据库来讲，并没有创建新的连接
                             conn = new PooledConnection(oldestActiveConnection.getRealConnection(), this);
                             conn.setCreatedTimestamp(oldestActiveConnection.getCreatedTimestamp());
                             conn.setLastUsedTimestamp(oldestActiveConnection.getLastUsedTimestamp());
-                            // 设置 oldestActiveConnection 为无效
+                            // 让老的连接失效
                             oldestActiveConnection.invalidate();
                             if (log.isDebugEnabled()) {
                                 log.debug("Claimed overdue connection " + conn.getRealHashCode() + ".");

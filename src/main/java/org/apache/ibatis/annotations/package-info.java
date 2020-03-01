@@ -15,6 +15,8 @@
  */
 /**
  * Contains all the annotation that are used in mapper interfaces
+ * 
+ * 包含所有mapper接口中用到的注解，例如常用的：@Param、@Update、@Select、@Delete等
  */
 package org.apache.ibatis.annotations;
 

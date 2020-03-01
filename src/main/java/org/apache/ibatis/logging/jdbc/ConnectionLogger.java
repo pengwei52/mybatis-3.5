@@ -32,8 +32,11 @@ import java.sql.Statement;
  * @author Eduardo Macarron
  *
  */
+// 负责打印连接信息和SQL语句。
+// 让原生的Connection对象具有输出日志的能力；基于动态代理的方式来输出相关的日志信息。
 public final class ConnectionLogger extends BaseJdbcLogger implements InvocationHandler {
 
+	// 真正的连接对象
     private final Connection connection;
 
     private ConnectionLogger(Connection conn, Log statementLog, int queryStack) {

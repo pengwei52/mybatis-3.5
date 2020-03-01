@@ -35,6 +35,7 @@ import java.util.Set;
  * @author Eduardo Macarron
  *
  */
+// 负责打印数据结果信息
 public final class ResultSetLogger extends BaseJdbcLogger implements InvocationHandler {
 
     private static Set<Integer> BLOB_TYPES = new HashSet<>();

@@ -15,5 +15,9 @@
  */
 /**
  * Parsing utils
+ * 解析工具包
+ * 	GenericTokenParser 解析#{}和${}占位符
+ * 	XPathParser XPath形式解析XML
+ * 	PropertyParser properties解析器
  */
 package org.apache.ibatis.parsing;

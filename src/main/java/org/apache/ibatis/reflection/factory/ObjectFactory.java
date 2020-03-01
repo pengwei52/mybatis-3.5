@@ -23,6 +23,8 @@ import java.util.Properties;
  *
  * Object 工厂接口，用于创建指定类的对象
  * 
+ * Mybatis 每次创建结果对象的新实例时，都会使用ObjectFactory去创建POJO
+ * 
  * @author Clinton Begin
  */
 public interface ObjectFactory {

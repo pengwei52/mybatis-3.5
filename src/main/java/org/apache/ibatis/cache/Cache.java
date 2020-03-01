@@ -108,7 +108,7 @@ public interface Cache {
      *
      * @return A ReadWriteLock
      */
-    @Deprecated // add by 芋艿
+    @Deprecated
     ReadWriteLock getReadWriteLock();
 
 }

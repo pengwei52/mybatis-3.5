@@ -24,7 +24,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * 池化的 Connection 对象
+ * 增强的、池化的 Connection 对象
  *
  * @author Clinton Begin
  */
@@ -259,6 +259,7 @@ class PooledConnection implements InvocationHandler {
     }
 
     /**
+     * 该方法用来增强数据库Connection对象，使用前检查连接是否有效，关闭时对连接进行回收
      * Required for InvocationHandler implementation.
      *
      * @param proxy  - not used
@@ -269,8 +270,9 @@ class PooledConnection implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         String methodName = method.getName();
-        // 判断是否为 CLOSE 方法，则将连接放回到连接池中，避免连接被关闭
+        // 判断是否为 CLOSE 方法，如果是则将连接放回到连接池中，避免连接被关闭
         if (CLOSE.hashCode() == methodName.hashCode() && CLOSE.equals(methodName)) {
+        	// 通过数据源进行回收
             dataSource.pushConnection(this);
             return null;
         } else {

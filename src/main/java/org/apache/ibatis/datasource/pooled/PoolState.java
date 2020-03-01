@@ -35,7 +35,7 @@ public class PoolState {
      */
     protected final List<PooledConnection> idleConnections = new ArrayList<>();
     /**
-     * 激活的的 PooledConnection 集合
+     * 激活的 PooledConnection 集合
      */
     protected final List<PooledConnection> activeConnections = new ArrayList<>();
 

@@ -15,5 +15,6 @@
  */
 /**
  * Bings mapper interfaces with mapped statements
+ * 生成mapper接口的动态代理并进行管理
  */
 package org.apache.ibatis.binding;

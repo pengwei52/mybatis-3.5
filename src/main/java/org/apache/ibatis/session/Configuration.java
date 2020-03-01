@@ -87,8 +87,11 @@ public class Configuration {
      */
     protected Environment environment;
 
+    // 
     protected boolean safeRowBoundsEnabled;
+    // 
     protected boolean safeResultHandlerEnabled = true;
+    // 将下划线映射成驼峰开关
     protected boolean mapUnderscoreToCamelCase;
     /**
      * 当开启时，任何方法的调用都会加载该对象的所有属性。否则，每个属性会按需加载（参考lazyLoadTriggerMethods)
@@ -97,6 +100,7 @@ public class Configuration {
     protected boolean multipleResultSetsEnabled = true;
     protected boolean useGeneratedKeys;
     protected boolean useColumnLabel = true;
+    // 
     protected boolean cacheEnabled = true;
     protected boolean callSettersOnNulls;
     protected boolean useActualParamName = true;

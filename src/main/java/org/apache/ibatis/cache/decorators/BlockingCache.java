@@ -30,7 +30,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * 阻塞的 Cache 实现类。
  *
  * 这里的阻塞比较特殊，当线程去获取缓存值时，如果不存在，则会阻塞后续的其他线程去获取该缓存。
- * 为什么这么有这样的设计呢？因为当线程 A 在获取不到缓存值时，一般会去设置对应的缓存值，这样就避免其他也需要该缓存的线程 B、C 等，重复添加缓存。
+ * 为什么有这样的设计呢？因为当线程 A 在获取不到缓存值时，一般会去设置对应的缓存值，这样就避免其他也需要该缓存的线程 B、C 等重复添加缓存。
  *
  * Simple and inefficient version of EhCache's BlockingCache decorator.
  * It sets a lock over a cache key when the element is not found in cache.
@@ -74,7 +74,7 @@ public class BlockingCache implements Cache {
         try {
             delegate.putObject(key, value);
         } finally {
-            // 释放锁
+            // put缓存完毕，释放锁
             releaseLock(key);
         }
     }
@@ -85,10 +85,11 @@ public class BlockingCache implements Cache {
         acquireLock(key);
         // 获得缓存值
         Object value = delegate.getObject(key);
-        // 释放锁
+        // 缓存不为空，释放锁
         if (value != null) {
             releaseLock(key);
         }
+        // 如果缓存为空，则返回空，此时就需要去put缓存了
         return value;
     }
 

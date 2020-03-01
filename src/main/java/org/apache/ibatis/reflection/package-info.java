@@ -15,5 +15,7 @@
  */
 /**
  * Reflection utils.
+ * 反射功能，这个包下实现元数据编程.
+ * 通过把java对象转换成元数据对象MetaObject，然后就可以对元数据对象进行赋值操作，数据查询结果到java对象映射就是通过元对象实现
  */
 package org.apache.ibatis.reflection;

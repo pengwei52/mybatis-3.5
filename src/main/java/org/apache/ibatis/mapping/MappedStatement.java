@@ -38,7 +38,7 @@ import java.util.List;
 public final class MappedStatement {
 
     /**
-     * 资源引用的地址
+     * 资源引用的地址，namespace+id
      */
     private String resource;
     /**
@@ -46,7 +46,7 @@ public final class MappedStatement {
      */
     private Configuration configuration;
     /**
-     * 编号
+     * statement id
      */
     private String id;
     /**

@@ -32,6 +32,7 @@ import java.sql.ResultSet;
  * @author Eduardo Macarron
  *
  */
+// 负责打印参数信息，并创建ResultSetLog
 public final class PreparedStatementLogger extends BaseJdbcLogger implements InvocationHandler {
 
     private final PreparedStatement statement;

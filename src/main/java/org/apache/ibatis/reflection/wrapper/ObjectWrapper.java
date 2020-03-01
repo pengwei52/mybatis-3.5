@@ -25,6 +25,8 @@ import java.util.List;
 
 /**
  * 对象包装器接口，基于 {@link org.apache.ibatis.reflection.MetaClass} 工具类，定义对指定对象的各种操作。
+ * 
+ * 抽象了对象的属性信息，定义了一系诶查询对象属性信息的方法，以及更新属性的方法，可以给对象赋值
  *
  * @author Clinton Begin
  */

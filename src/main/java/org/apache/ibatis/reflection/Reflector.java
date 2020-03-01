@@ -31,6 +31,8 @@ import java.util.Map.Entry;
  *
  * 反射器，每个 Reflector 对应一个类。
  *
+ * Reflector 是mybatis反射模块的基础，每个Reflector对象都对应一个类，在其中缓存了所有反射需要的类元信息。
+ * 
  * Reflector 会缓存反射操作需要的类的信息，例如 构造方法、属性名、setting / getting 方法等等。
  *
  * @author Clinton Begin

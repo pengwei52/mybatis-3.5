@@ -15,5 +15,7 @@
  */
 /**
  * Base package for Datasources
+ * 
+ * 适配器模式、动态代理模式
  */
 package org.apache.ibatis.datasource;

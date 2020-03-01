@@ -28,14 +28,21 @@ import java.util.*;
  * @author Clinton Begin
  * @author Eduardo Macarron
  */
+// 所有日志增强的抽象基类
+// 连接、编译、预编译、结果集 对应的日志输出实现类全部继承自该类
 public abstract class BaseJdbcLogger {
 
+	// 设置类型方法集合,保存PreparedStatement中常用的set方法（占位符赋值）
     protected static final Set<String> SET_METHODS = new HashSet<>();
+    // 执行方式集合,保存PreparedStatement中常用的执行SQL语句的方法
     protected static final Set<String> EXECUTE_METHODS = new HashSet<>();
 
+    // 保存PreparedStatement中set方法的键值对
     private final Map<Object, Object> columnMap = new HashMap<>();
 
+    // 保存PreparedStatement中set方法的key值
     private final List<Object> columnNames = new ArrayList<>();
+    // 保存PreparedStatement中set方法的value值
     private final List<Object> columnValues = new ArrayList<>();
 
     protected Log statementLog;

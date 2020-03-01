@@ -15,5 +15,7 @@
  */
 /**
  * Object wrappers.
+ * 
+ * mybatis 反射相关的包装
  */
 package org.apache.ibatis.reflection.wrapper;

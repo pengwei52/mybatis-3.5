@@ -15,5 +15,12 @@
  */
 /**
  * Contains the statement executors.
+ * 包含SQL语句执行器，核心功能包括：
+ * 	主键生成功能
+ * 	执行参数解析功能
+ * 	执行结果集解析功能
+ * 	SQL执行器
+ * 	缓存执行器
+ * ErrorContext 错误上下文对象，跟踪所有执行流程
  */
 package org.apache.ibatis.executor;

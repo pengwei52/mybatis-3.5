@@ -15,5 +15,10 @@
  */
 /**
  * Base package for the Configuration building code
+ * 包含Configuration对象所有构造器，主要包括XML、注解两种方式的配置解析
+ * 	XMLConfigBuilder 解析configuration.xml配置文件
+ * 	XMLMapperBuilder 解析Mapper.xml配置文件
+ * 	XMLStatementBuilder 解析select/update/delete标签
+ * 	MapperAnnotationBuilder 注解式Mapper
  */
 package org.apache.ibatis.builder;
